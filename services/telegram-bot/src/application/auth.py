@@ -30,10 +30,10 @@ class AuthService(IAuthService[Message]):
     ) -> None:
         await publisher.publish(
             topic=KafkaTopicEnum.USER_ACTION,
-            key=f"{str(data.id)}:auth",
+            key=f"{data.id!s}:auth",
             value=data.model_dump()
         )
-        logger.info(f"[AuthService]: User {data.id} was authenticated")
+        logger.info(f"[AuthService]: User {data.id} was authenticated.")
 
     async def _notify_referrer(
             self,

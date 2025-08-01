@@ -1,7 +1,6 @@
 import asyncio
 
 from src.core.logger import Logger
-from src.domain.enums.topic import KafkaTopicEnum
 from src.infrastructure.di.bootstrap import Bootstrap
 from src.infrastructure.di.container import container
 
