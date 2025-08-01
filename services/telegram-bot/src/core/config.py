@@ -28,8 +28,7 @@ class CodeReviewerSetting(BaseSettings):
 
     @cached_property
     def kafka_bootstrap_server(self) -> str:
-        # return f"localhost:{self.KAFKA_DOCKER_PORT}"
-        return "localhost:9092"
+        return f"kafka:{self.KAFKA_DOCKER_PORT}"
 
     class Config:
         env_file = BASE_DIR / ".env"
