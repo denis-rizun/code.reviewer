@@ -14,10 +14,6 @@ async def main():
     kafka_manager = container.kafka_manager()
     async with kafka_manager:
         await configurator.run()
-        await kafka_manager.consumer.consume(
-            topic=KafkaTopicEnum.USER_ACTION,
-            handler=kafka_manager.message_handler,
-        )
 
 
 if __name__ == "__main__":
