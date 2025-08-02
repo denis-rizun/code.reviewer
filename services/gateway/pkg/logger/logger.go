@@ -1,6 +1,7 @@
 package logger
 
 import (
+	"gateway/internal/domain"
 	"log"
 	"os"
 )
@@ -10,13 +11,13 @@ var (
 	Error *log.Logger
 )
 
-const (
-	Red   = "\033[31m"
-	Green = "\033[32m"
-	Reset = "\033[0m"
-)
-
 func init() {
-	Info = log.New(os.Stdout, Green+"INFO: "+Reset, log.Ldate|log.Ltime|log.Lmsgprefix)
-	Error = log.New(os.Stderr, Red+"ERROR: "+Reset, log.Ldate|log.Ltime|log.Lmsgprefix)
+	Info = log.New(
+		os.Stdout,
+		domain.GreenColor+"INFO: "+domain.ResetColor, log.Ldate|log.Ltime|log.Lmsgprefix,
+	)
+	Error = log.New(
+		os.Stderr,
+		domain.RedColor+"ERROR: "+domain.ResetColor, log.Ldate|log.Ltime|log.Lmsgprefix,
+	)
 }
