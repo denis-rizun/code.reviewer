@@ -1,0 +1,40 @@
+name: Monorepo CI/Python
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "services/telegram-bot/**"
+      - "tests/**"
+      - "pyproject.toml"
+      - "requirements-github.txt"
+      - ".github/workflows/ci-python.yml"
+  pull_request:
+    branches: [main]
+    paths:
+      - "services/telegram-bot/**"
+      - "tests/py/**"
+      - "pyproject.toml"
+      - "requirements-github.txt"
+      - ".github/workflows/ci-python.yml"
+
+jobs:
+  python:
+    name: Lint
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements-github.txt
+
+      - name: Run Ruff
+        run: ruff check .

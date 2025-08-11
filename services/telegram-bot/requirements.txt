@@ -1,0 +1,13 @@
+# ------------ Pydantic & Settings ------------
+pydantic==2.11.7
+pydantic-settings==2.10.1
+
+# ------------ Telegram ------------
+aiogram==3.21.0
+
+# ------------ Broker Messaging ------------
+aiokafka==0.12.0
+
+# ------------ Utilities & Other ------------
+colorlog==6.9.0
+dependency_injector==4.48.1

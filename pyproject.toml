@@ -1,0 +1,5 @@
+[tool.ruff]
+lint.select = ["E", "W", "F", "B", "N", "UP", "SIM", "PL", "PERF", "RUF"]
+lint.ignore = []
+line-length = 90
+exclude = []
