@@ -10,6 +10,7 @@ class Settings(BaseSettings):
     ENABLE_COLORED_LOGS: bool
 
     GITHUB_TOKEN: str
+    DEEPSEEK_API_KEY: str
 
     @staticmethod
     def repo_path(name: str) -> Path:
