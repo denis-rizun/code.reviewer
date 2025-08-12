@@ -94,25 +94,18 @@ class Constants:
     @staticmethod
     def get_prompt_overview() -> str:
         return """
-        This is the final stage.  
-        You need to combine ALL previous parts (metadata, documentation, code, imports analysis)
-        into a final professional report.
-        Rules:
-        - Speak as a Senior Engineer with 20+ years of experience.
-        - No fluff, no sugarcoating — honest and direct evaluation.
-        - Do NOT write code, only recommendations, critique, and explanations.
-        - Always explain WHY something is good or bad.
-        Requirements:
-        1. Calculate average statistics for all earlier scores.
-        2. Provide a full architectural tree (with percentage usage next to each path).
-        3. Identify most frequently used folders (full paths).
-        4. Analyze:
-           - Strengths of the project.
-           - Weaknesses of the project.
-           - Risks and potential problems.
-        5. Give step-by-step improvement recommendations.
-        6. Final overall score (0–100).
-        7. Explain reasoning for every conclusion.
+        Prepare a final report based on the provided data.
+        Do not mention who performed the analysis or how it was done.
+        Keep statements direct and to the point.
+        Format:
+        1. Average values for all metrics from previous parts.
+        2. Full architectural tree of the project with usage percentage next to each path.
+        3. Most frequently used folders (full paths).
+        4. Key strengths of the project — list with an explanation of why each point matters.
+        5. Key weaknesses of the project — list with an explanation of potential consequences.
+        6. Main risks and potential issues.
+        7. Final overall score (0–100) with explanation.
+        Do not describe the process of the analysis, only present the final findings.
         Repository metadata: {metadata}
         Readme & GitHub Actions: {readme_actions}
         Code review: {code}
