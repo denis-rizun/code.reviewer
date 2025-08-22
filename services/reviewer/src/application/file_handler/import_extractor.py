@@ -12,7 +12,8 @@ class ImportExtractor(IImportExtractor):
         "javascript": r"^(?:import\s+.*?from\s+['\"].+?['\"]|require\s*\(.*?\))",
         "typescript": r"^(?:import\s+.*?from\s+['\"].+?['\"]|require\s*\(.*?\))",
         "java": r"^import\s+[\w\.]+;",
-        "php": r"^(?:use\s+[\w\\]+;|require(?:_once)?\s*\(.*?\);|include(?:_once)?\s*\(.*?\);)",
+        "php": r"^(?:use\s+[\w\\]+;|require(?:_once)?\s*\(.*?\);|include(?:_once)?\s*\
+        (.*?\);)",
         "ruby": r"^(?:require\s+['\"].+?['\"]|require_relative\s+['\"].+?['\"])",
         "c_cpp": r"^#\s*include\s+[<\"].+[>\"]",
         "csharp": r"^using\s+[\w\.]+;",

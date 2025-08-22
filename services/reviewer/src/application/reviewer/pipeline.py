@@ -2,8 +2,8 @@ from src.core.constants import Constants
 from src.core.exceptions import NotFoundException, DeserializationException
 from src.core.logger import Logger
 from src.domain.interfaces.broker.producer import IProducer
-from src.domain.interfaces.reviewer.service import IReviewerService
 from src.domain.interfaces.reviewer.pipeline import IReviewerPipeline
+from src.domain.interfaces.reviewer.service import IReviewerService
 
 logger = Logger.setup(__name__)
 
@@ -36,8 +36,8 @@ class ReviewerPipeline(IReviewerPipeline):
 
         try:
             user_id = int(key.split(":")[1])
-        except (IndexError, ValueError):
-            raise DeserializationException(f"Cannot parse user_id from key: {key}")
+        except (IndexError, ValueError) as e:
+            raise DeserializationException(f"Cannot parse user_id from key: {key}") from e
 
         link = value.get("link")
         if not link:

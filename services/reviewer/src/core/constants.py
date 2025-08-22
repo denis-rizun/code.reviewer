@@ -20,7 +20,8 @@ class Constants:
     @staticmethod
     def get_prompt_metadata() -> str:
         return """
-        You are a Senior Software Engineer with over 20 years of experience in industrial development.
+        You are a Senior Software Engineer with over 20 years of experience in
+        industrial development.
         I will send you the project in parts: project description, documentation, code.
         Keep the entire context in memory for full analysis.
         Important rules:
@@ -29,13 +30,15 @@ class Constants:
         Task for each part:
         1. Analyze the provided content.
         2. Provide statistics (0–100) on:
-           - Code cleanliness and formatting according to PEP8 (or equivalent if the language is different).
+           - Code cleanliness and formatting according to PEP8 (or equivalent if the
+           language is different).
            - Formatting quality (structure, indentation, readability).
            - Business logic quality (optimality of solutions, clarity, maintainability).
         3. Provide expert comments, indicating strengths and weaknesses.
         4. Suggest improvements (only as recommendations, no code).
         ⚠️ First part — {metadata}.
-        Your task: assess how complete and clear it is, and whether it reflects the essence of the project and development goals.
+        Your task: assess how complete and clear it is, and whether it reflects the
+        essence of the project and development goals.
         """
 
     @staticmethod
@@ -48,8 +51,10 @@ class Constants:
         Rules:
         - Do NOT write or generate code, only recommendations and analysis.
         Requirements:
-        1. Check documentation structure — how clear and sufficient it is for starting the project.
-        2. Check GitHub Actions correctness — does CI/CD cover critical scenarios? (if present)
+        1. Check documentation structure — how clear and sufficient it is for starting
+        the project.
+        2. Check GitHub Actions correctness — does CI/CD cover critical scenarios?
+        (if present)
         3. Provide statistics (0–100) on:
            - Documentation clarity and structure.
            - Compliance with CI/CD best practices.
@@ -60,8 +65,8 @@ class Constants:
     @staticmethod
     def get_prompt_code() -> str:
         return """
-        This is the next part of the project. 
-        You are in an ongoing analysis session — keep all previous context in memory 
+        This is the next part of the project.
+        You are in an ongoing analysis session — keep all previous context in memory
         (architecture, style preferences, patterns found earlier),
         but focus **only** on the provided code in this request.
         Rules:
@@ -69,8 +74,9 @@ class Constants:
         - Give only professional advice, observations, and critiques.
         - Look what is overhead and unnecessary.
         Additionally:
-        - Track and update an internal architectural map/tree based on file paths, imports, and code structure.
-        - Use previously collected information to refine architectural insights, 
+        - Track and update an internal architectural map/tree based on file paths,
+        imports, and code structure.
+        - Use previously collected information to refine architectural insights,
           but do not repeat past analysis unless relevant to this snippet.
         - Ensure each answer is unique and specific to this code snippet.
         For the current code snippet:
@@ -93,10 +99,12 @@ class Constants:
         return """
         This part contains only the imports collected from all files in the repository.
         Your tasks:
-        - Build a full architectural tree of the project based on these imports and possible file paths.
-        - Next to each file path in the tree, indicate the percentage of how often it is referenced/imported across the project.
+        - Build a full architectural tree of the project based on these imports and
+        possible file paths.
+        - Next to each file path in the tree, indicate the percentage of how often it
+        is referenced/imported across the project.
         - Identify the most frequently used folders and their full paths.
-        - Analyze architecture based on imports: 
+        - Analyze architecture based on imports:
           - Coupling between modules.
           - Potential circular dependencies.
           - Separation of concerns.
@@ -113,12 +121,15 @@ class Constants:
         Keep statements direct and to the point.
         Format:
         1. Average values for all metrics from previous parts.
-        2. Full architectural tree of the project with usage percentage next to each path.
+        2. Full architectural tree of the project with usage percentage next
+        to each path.
         3. Most frequently used folders (full paths).
-        4. Key strengths of the project — list with an explanation of why each point matters.
-        5. Key weaknesses of the project — list with an explanation of potential consequences.
+        4. Key strengths of the project — list with an explanation of why each
+        point matters.
+        5. Key weaknesses of the project — list with an explanation of potential
+        consequences.
         6. Main risks and potential issues.
-        7. Final overall score (0–100) with explanation.
+        7. Final overall score (0-100) with explanation.
         Do not describe the process of the analysis, only present the final findings.
         Repository metadata: {metadata}
         Readme & GitHub Actions: {readme_actions}

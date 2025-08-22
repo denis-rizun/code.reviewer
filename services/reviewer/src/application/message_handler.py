@@ -22,7 +22,9 @@ class MessageHandler:
         service = self._get_service_by_name(name=service_name)
         if not hasattr(service, service_method):
             logger.error(f"Method {service_method} not found in {service_name}")
-            raise NotFoundException(f"Method {service_method} not found in {service_name}")
+            raise NotFoundException(
+                f"Method {service_method} not found in {service_name}"
+            )
 
         found_method = getattr(service, service_method)
         await found_method(key, value)
@@ -31,6 +33,6 @@ class MessageHandler:
         try:
             provider = getattr(self._container, name)
             return provider()
-        except AttributeError:
+        except AttributeError as e:
             logger.error(f"Service '{name}' not found in container")
-            raise NotFoundException(f"Service '{name}' not found in container")
+            raise NotFoundException(f"Service '{name}' not found in container") from e

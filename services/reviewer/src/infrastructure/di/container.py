@@ -2,10 +2,10 @@ from dependency_injector.containers import DeclarativeContainer
 from dependency_injector.providers import Singleton, Factory
 
 from src.application.ai.deepseek import DeepseekAIModel
-from src.application.file_handler.chunker import ChunkerService
 from src.application.cloner import GitHubCloner
-from src.application.file_handler.processer import FileProcesser
+from src.application.file_handler.chunker import ChunkerService
 from src.application.file_handler.import_extractor import ImportExtractor
+from src.application.file_handler.processer import FileProcesser
 from src.application.message_handler import MessageHandler
 from src.application.reviewer.pipeline import ReviewerPipeline
 from src.application.reviewer.service import ReviewerService

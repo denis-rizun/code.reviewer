@@ -15,7 +15,7 @@ class FileProcesser(IFileProcesser):
 
         for dirpath, dirnames, filenames in walk(root_path):
             dirnames[:] = [d for d in dirnames if d not in self.EXCLUDED_DIRS]
-            dirpath = Path(dirpath)
+            dirpath = Path(dirpath)  # noqa
             for filename in filenames:
                 file_path = dirpath / filename
                 relative_path = path.relpath(file_path, start=root_path)
@@ -24,7 +24,7 @@ class FileProcesser(IFileProcesser):
                     continue
 
                 try:
-                    async with open(file_path, mode='r', encoding='utf-8') as f:
+                    async with open(file_path, encoding='utf-8') as f:
                         content = await f.read()
                         result[relative_path] = content
 
@@ -45,8 +45,8 @@ class FileProcesser(IFileProcesser):
 
     def get_actions(self, content: dict[str, str]) -> str | None:
         actions = []
-        for file_path, content in content.items():
+        for file_path, cnt in content.items():
             if file_path.startswith(".github") or file_path.startswith(".gitlab"):
-                actions.append(f"\n--- {path} ---\n{content}\n")
+                actions.append(f"\n--- {path} ---\n{cnt}\n")
 
         return "".join(actions) if actions else None

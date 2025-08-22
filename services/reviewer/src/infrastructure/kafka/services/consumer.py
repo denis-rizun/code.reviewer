@@ -38,7 +38,9 @@ class KafkaConsumer(IConsumer):
             factory: IFactory,
     ) -> None:
         if not self._running:
-            raise NotInitializedException("KafkaConsumer must be started before consuming")
+            raise NotInitializedException(
+                "KafkaConsumer must be started before consuming"
+            )
 
         consumer = factory.create(topic=topic, group_id=group)
         await consumer.start()

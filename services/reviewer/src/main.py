@@ -12,7 +12,7 @@ async def main() -> None:
     handler = MessageHandler(container=container)
     consumer = container.kafka_consumer()
     async with consumer:
-        for topic in Constants.TOPIC_MAPPER.keys():
+        for topic in Constants.TOPIC_MAPPER:
             await consumer.add_consumer(
                 topic=topic,
                 group=Constants.TOPIC_MAPPER[topic]["group"],

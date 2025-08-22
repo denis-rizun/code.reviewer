@@ -69,4 +69,4 @@ class DeepseekAIModel(IAIModel):
             return response.json()["choices"][0]["message"]["content"]
         except (KeyError, IndexError, TypeError) as e:
             logger.error(f"Unexpected OpenAI response format: {e}")
-            raise ValueError("Malformed response from OpenAI API")
+            raise ValueError("Malformed response from OpenAI API") from e

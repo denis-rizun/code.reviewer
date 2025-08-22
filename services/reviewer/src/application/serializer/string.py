@@ -1,4 +1,5 @@
 from typing import Any
+
 from src.core.exceptions import SerializationException, DeserializationException
 from src.core.logger import Logger
 from src.domain.interfaces.serializer import ISerializer
@@ -14,7 +15,7 @@ class StringSerializer(ISerializer):
             return str(obj).encode('utf-8')
         except (UnicodeEncodeError, AttributeError) as e:
             logger.error(f"Serialization error: {e}")
-            raise SerializationException(f"Serialization error: {e}")
+            raise SerializationException(f"Serialization error: {e}") from e
 
     @classmethod
     def deserialize(cls, obj: bytes | None) -> Any:
@@ -28,4 +29,4 @@ class StringSerializer(ISerializer):
             return obj.decode('utf-8')
         except (UnicodeDecodeError, AttributeError) as e:
             logger.error(f"Deserialization error: {e}")
-            raise DeserializationException(f"Deserialization error: {e}")
+            raise DeserializationException(f"Deserialization error: {e}") from e
