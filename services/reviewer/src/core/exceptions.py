@@ -9,3 +9,15 @@ class NotInitializedException(CodeReviewException):
 
 class BadResponseException(CodeReviewException):
     pass
+
+
+class SerializationException(CodeReviewException):
+    pass
+
+
+class DeserializationException(CodeReviewException):
+    pass
+
+
+class NotFoundException(CodeReviewException):
+    pass

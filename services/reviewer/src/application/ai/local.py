@@ -9,11 +9,10 @@ class LocalAIModel(IAIModel):
     MODEL = ...
 
     async def __aenter__(self) -> Self:
-        pass
+        raise NotImplemented
 
     async def __aexit__(self, exc_type: ExcType, exc_val: ExcVal, exc_tb: ExcTB) -> None:
-        pass
-
+        raise NotImplemented
 
     async def ask(self, prompt: str) -> str:
-        pass
+        raise NotImplemented

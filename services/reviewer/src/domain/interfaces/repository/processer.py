@@ -3,9 +3,9 @@ from pathlib import Path
 from typing import ClassVar
 
 
-class IGithubProcesser(ABC):
-    EXCLUDED_DIRS: ClassVar[set]
-    EXCLUDED_EXTENSIONS: ClassVar[set]
+class IFileProcesser(ABC):
+    EXCLUDED_DIRS: ClassVar[set[str]]
+    EXCLUDED_EXTENSIONS: ClassVar[set[str]]
 
     @abstractmethod
     async def get_files_content(self, root_path: Path) -> dict[str, str]:

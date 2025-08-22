@@ -1,4 +1,4 @@
-from typing import Self, Any
+from typing import Self, Any, ClassVar
 
 from httpx import AsyncClient, Response, Timeout
 from tenacity import retry, stop_after_attempt, wait_fixed, retry_if_exception_type
@@ -15,9 +15,9 @@ logger = Logger.setup(__name__)
 class DeepseekAIModel(IAIModel):
     MAX_TOKENS = 4000
     MODEL = "deepseek-chat"
-    _BASE_URL = "https://api.deepseek.com/chat/completions"
-    _MAX_RETRIES = 2
-    _DELAY = 30
+    _BASE_URL: ClassVar[str] = "https://api.deepseek.com/chat/completions"
+    _MAX_RETRIES: ClassVar[int] = 2
+    _DELAY: ClassVar[int] = 30
 
     def __init__(self) -> None:
         self._client = None
@@ -30,11 +30,11 @@ class DeepseekAIModel(IAIModel):
         if self._client:
             await self._client.aclose()
 
-    # @retry(
-    #     stop=stop_after_attempt(_MAX_RETRIES),
-    #     wait=wait_fixed(_DELAY),
-    #     retry=retry_if_exception_type(BadResponseException)
-    # )
+    @retry(
+        stop=stop_after_attempt(_MAX_RETRIES),
+        wait=wait_fixed(_DELAY),
+        retry=retry_if_exception_type(BadResponseException)
+    )
     async def ask(self, prompt: str) -> str:
         if not self._client:
             raise NotInitializedException("HTTPX-Client is not initialized")

@@ -1,11 +1,12 @@
 from os import walk, path
-from aiofiles import open
 from pathlib import Path
 
-from src.domain.interfaces.github.processer import IGithubProcesser
+from aiofiles import open
+
+from src.domain.interfaces.repository.processer import IFileProcesser
 
 
-class GithubProcesser(IGithubProcesser):
+class FileProcesser(IFileProcesser):
     EXCLUDED_DIRS = {"__pycache__", ".git", ".venv"}
     EXCLUDED_EXTENSIONS = {".pyc", ".lock", ".docx", ".json", ".csv", ".session"}
 
@@ -45,7 +46,7 @@ class GithubProcesser(IGithubProcesser):
     def get_actions(self, content: dict[str, str]) -> str | None:
         actions = []
         for file_path, content in content.items():
-            if file_path.startswith(".github"):
+            if file_path.startswith(".github") or file_path.startswith(".gitlab"):
                 actions.append(f"\n--- {path} ---\n{content}\n")
 
         return "".join(actions) if actions else None

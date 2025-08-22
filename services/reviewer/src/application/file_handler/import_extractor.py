@@ -6,7 +6,7 @@ from src.domain.interfaces.import_extractor import IImportExtractor
 
 
 class ImportExtractor(IImportExtractor):
-    IMPORT_PATTERNS: ClassVar[dict[str, str]] = {
+    _IMPORT_PATTERNS: ClassVar[dict[str, str]] = {
         "python": r"^(?:from\s+\S+\s+import\s+\S+|import\s+\S+)",
         "go": r"^(?:import\s+\(.*?\)|import\s+\"[^\"]+\")",
         "javascript": r"^(?:import\s+.*?from\s+['\"].+?['\"]|require\s*\(.*?\))",
@@ -18,7 +18,7 @@ class ImportExtractor(IImportExtractor):
         "csharp": r"^using\s+[\w\.]+;",
         "rust": r"^(?:use\s+[\w:]+(?:\s+as\s+\w+)?;|extern\s+crate\s+\w+;)",
     }
-    EXT_MAP: ClassVar[dict[str, str]] = {
+    _EXT_MAP: ClassVar[dict[str, str]] = {
         ".py": "python",
         ".go": "go",
         ".js": "javascript",
@@ -40,11 +40,11 @@ class ImportExtractor(IImportExtractor):
 
         for filepath, code in files.items():
             ext = Path(filepath).suffix.lower()
-            lang = self.EXT_MAP.get(ext)
+            lang = self._EXT_MAP.get(ext)
             if not lang:
                 continue
 
-            pattern = self.IMPORT_PATTERNS.get(lang)
+            pattern = self._IMPORT_PATTERNS.get(lang)
             if not pattern:
                 continue
 

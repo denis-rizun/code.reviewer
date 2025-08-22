@@ -1,8 +1,17 @@
-from typing import Any
+from dataclasses import dataclass
+from typing import Any, Self
+
+from src.core.constants import Constants
 
 
+@dataclass
 class GithubLicense:
-    def __init__(self, data: dict[str, Any]) -> None:
-        unknown = "Unknown"
-        self.name = data.get("name", unknown)
-        self.key = data.get("key", unknown)
+    name: str
+    key: str
+
+    @classmethod
+    def transform(cls, data: dict[str, Any]) -> Self:
+        return cls(
+            name=data.get("name", Constants.UNKNOWN_ELLIPSE),
+            key=data.get("key", Constants.UNKNOWN_ELLIPSE)
+        )

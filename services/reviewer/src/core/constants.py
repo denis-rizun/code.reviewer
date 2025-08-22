@@ -1,8 +1,21 @@
+from typing import ClassVar
+
 from src.core.config import config
 
 
 class Constants:
-    AVG_TOKEN_PER_PROMPT = 1500
+    UNKNOWN_ELLIPSE: ClassVar[str] = "Unknown"
+    AVG_TOKEN_PER_PROMPT: ClassVar[int] = 1500
+    REVIEW_GROUP: ClassVar[str] = "review-group"
+    REVIEW_REQUEST_TOPIC: ClassVar[str] = "review-request"
+    REVIEW_RESPONSE_TOPIC: ClassVar[str] = "review-response"
+    TOPIC_MAPPER: ClassVar[dict[str, dict[str, str]]] = {
+        REVIEW_REQUEST_TOPIC: {
+            "service": "reviewer_pipeline",  # must be same like in Container()
+            "method": "run",
+            "group": REVIEW_GROUP,
+        },
+    }
 
     @staticmethod
     def get_prompt_metadata() -> str:
@@ -54,6 +67,7 @@ class Constants:
         Rules:
         - Do NOT write any code.
         - Give only professional advice, observations, and critiques.
+        - Look what is overhead and unnecessary.
         Additionally:
         - Track and update an internal architectural map/tree based on file paths, imports, and code structure.
         - Use previously collected information to refine architectural insights, 
@@ -111,11 +125,6 @@ class Constants:
         Code review: {code}
         Imports analysis: {imports}
         """
-
-    @staticmethod
-    def get_tokens_by_prompt(prompt: str) -> float:
-        return len(prompt) / 0.75
-
 
     @staticmethod
     def get_deepseek_headers() -> dict[str, str]:
