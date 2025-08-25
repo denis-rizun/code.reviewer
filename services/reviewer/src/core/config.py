@@ -10,27 +10,21 @@ class Settings(BaseSettings):
     ENABLE_LOGGER: bool
     ENABLE_COLORED_LOGS: bool
 
-    GITHUB_TOKEN: str
-    DEEPSEEK_API_KEY: str
-
-    ZOOKEEPER_VERSION: str
-    KAFKA_VERSION: str
-    ZOOKEEPER_CLIENT_PORT: int
-    ZOOKEEPER_TICK_TIME: int
-    KAFKA_BROKER_ID: int
-    OUTER_KAFKA_PORT: int
-    INNER_KAFKA_PORT: int
-    KAFKA_DOCKER_PORT: int
-    KAFKA_REPLICATION_FACTOR: int
-
     PORT: int
     REDIS_HOST: str
     REDIS_PORT: int
+    ZOOKEEPER_CLIENT_PORT: int
+    KAFKA_BROKERS: str
+    KAFKA_HOST_PORT: int
+    KAFKA_UI_PORT: int
+    KAFKA_DOCKER_PORT: int
+
+    GITHUB_TOKEN: str
+    DEEPSEEK_API_KEY: str
 
     @cached_property
     def kafka_bootstrap_server(self) -> str:
-        return f"localhost:{self.KAFKA_DOCKER_PORT}"
-        # return f"kafka:{self.KAFKA_DOCKER_PORT}"
+        return f"kafka:{self.KAFKA_DOCKER_PORT}"
 
     @staticmethod
     def repo_path(name: str) -> Path:
