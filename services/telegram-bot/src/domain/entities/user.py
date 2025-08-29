@@ -1,7 +1,8 @@
-from src.infrastructure.schemas.base import CodeReviewSchema
+from dataclasses import dataclass
 
 
-class UserSchema(CodeReviewSchema):
+@dataclass
+class UserEntity:
     id: int
     name: str
     username: str | None

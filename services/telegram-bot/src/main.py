@@ -10,9 +10,7 @@ logger = Logger.setup(__name__)
 async def main():
     await Bootstrap.wire()
     configurator = container.bot_configurator()
-    kafka_manager = container.kafka_manager()
-    async with kafka_manager:
-        await configurator.run()
+    await configurator.run()
 
 
 if __name__ == "__main__":

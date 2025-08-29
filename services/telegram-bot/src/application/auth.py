@@ -1,17 +1,14 @@
 from aiogram import Bot
 from aiogram.types import Message
-from dependency_injector.wiring import Provide, inject
 
 from src.core.logger import Logger
-from src.domain.enums.topic import KafkaTopicEnum
-from src.domain.interfaces.broker.publisher import IPublisher
+from src.domain.entities.user import UserEntity
 from src.domain.interfaces.services.auth import IAuthService
-from src.infrastructure.schemas.user import UserSchema
 
 logger = Logger.setup(__name__)
 
 
-class AuthService(IAuthService[Message]):
+class AuthService(IAuthService):
     def __init__(self, bot: Bot) -> None:
         self.bot = bot
 
@@ -22,23 +19,14 @@ class AuthService(IAuthService[Message]):
         if ref_code:
             await self._notify_referrer(ref_code=ref_code, data=data, msg=msg)
 
-    @inject
-    async def _handle_user(
-            self,
-            data: UserSchema,
-            publisher: IPublisher = Provide["kafka_publisher"]
-    ) -> None:
-        await publisher.publish(
-            topic=KafkaTopicEnum.USER_ACTION,
-            key=f"{data.id!s}:auth",
-            value=data.model_dump()
-        )
+    async def _handle_user(self, data: UserEntity) -> None:
+        # request to api for authenticating user in the system
         logger.info(f"[AuthService]: User {data.id} was authenticated.")
 
     async def _notify_referrer(
             self,
             ref_code: str,
-            data: UserSchema,
+            data: UserEntity,
             msg: Message
     ) -> None:
         if not ref_code.isdigit():
@@ -55,8 +43,8 @@ class AuthService(IAuthService[Message]):
         )
 
     @classmethod
-    def _get_user_data(cls, msg: Message) -> UserSchema:
-        return UserSchema(
+    def _get_user_data(cls, msg: Message) -> UserEntity:
+        return UserEntity(
             id=msg.from_user.id,
             name=msg.from_user.first_name,
             username=msg.from_user.username,

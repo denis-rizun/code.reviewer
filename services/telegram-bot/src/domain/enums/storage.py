@@ -6,3 +6,4 @@ class StorageEnum(StrEnum):
     REF_CODE = "ref_code"
     BOT = "bot"
     AUTH_SERVICE = "auth_service"
+    REVIEW_SERVICE = "review_service"
