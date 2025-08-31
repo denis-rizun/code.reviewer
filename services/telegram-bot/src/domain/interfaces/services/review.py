@@ -1,15 +1,15 @@
 from abc import ABC, abstractmethod
 
-from src.domain.dtos.review import ReviewResponseDTO
-from src.domain.type import MessageType
+from src.domain.type import MessageType, FSMContextType
 
 
 class IReviewService(ABC):
 
     @abstractmethod
-    async def get_review(
+    async def run_review(
         self,
         message: MessageType,
+        state: FSMContextType,
         link: str
-    ) -> tuple[ReviewResponseDTO, list[int]]:
+    ) -> None:
         pass

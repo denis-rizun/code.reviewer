@@ -13,7 +13,7 @@ class ReviewRequestDTO:
 @dataclass
 class ReviewResponseDataDTO:
     task_id: str
-    rating: str
+    overview: str
     repository_link: str
 
 
@@ -24,11 +24,16 @@ class ReviewResponseDTO:
 
     @classmethod
     def validate(cls, obj: dict[str, str]) -> Self:
+        data = (
+            ReviewResponseDataDTO(
+                task_id=obj["task_id"],
+                overview=obj["overview"],
+                repository_link=obj["repository_link"],
+            )
+            if obj["status"] == ReviewStatusEnum.READY.value
+            else None
+        )
         return ReviewResponseDTO(
             status=obj["status"],
-            data=ReviewResponseDataDTO(
-                task_id=obj["data"],
-                rating=obj["rating"],
-                repository_link=obj["repository_link"],
-            ),
+            data=data,
         )

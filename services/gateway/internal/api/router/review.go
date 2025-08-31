@@ -1,6 +1,7 @@
 package router
 
 import (
+	"encoding/json"
 	"fmt"
 	"gateway/internal/application"
 	"gateway/internal/domain/dto"
@@ -35,7 +36,14 @@ func (h *ReviewHandler) CheckIn(c *gin.Context) {
 	}
 
 	if found {
-		c.JSON(http.StatusOK, gin.H{"status": "ready", "data": result})
+		var resultData map[string]interface{}
+		if err := json.Unmarshal([]byte(result), &resultData); err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"error": "failed to parse result"})
+			return
+		}
+
+		resultData["status"] = "ready"
+		c.JSON(http.StatusOK, resultData)
 		return
 	}
 

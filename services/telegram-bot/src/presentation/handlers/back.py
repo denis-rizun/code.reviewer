@@ -12,6 +12,13 @@ back_router = Router()
 
 @back_router.message(F.text == PathEnum.BACK)
 async def back(message: Message, state: FSMContext) -> None:
+    data = await state.get_data()
+    task = data.get("review_task")
+    if task and not task.done():
+        task.cancel()
+
+    await state.clear()
+
     sent = await message.answer(
         text=Constants.INFO_TEXT,
         reply_markup=KeyboardGetter.main_without_back()

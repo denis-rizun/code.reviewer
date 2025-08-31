@@ -1,18 +1,23 @@
 package publisher
 
-import "github.com/segmentio/kafka-go"
+import (
+	"github.com/segmentio/kafka-go"
+	"strings"
+)
 
 type Factory struct {
-	brokers []string
+	brokers string
 }
 
-func NewFactory(brokers []string) *Factory {
+func NewFactory(brokers string) *Factory {
 	return &Factory{brokers: brokers}
 }
 
 func (f *Factory) Create(topic string) *Publisher {
+	brokerList := strings.Split(f.brokers, ",")
+
 	writer := &kafka.Writer{
-		Addr:     kafka.TCP(f.brokers...),
+		Addr:     kafka.TCP(brokerList...),
 		Topic:    topic,
 		Balancer: &kafka.LeastBytes{},
 	}

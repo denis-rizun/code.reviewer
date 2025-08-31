@@ -6,10 +6,10 @@ from src.domain.type import MessageType
 
 
 class IPollingHandler(ABC):
-    
+
     @abstractmethod
     async def show_progress(
-        self, 
+        self,
         message: MessageType,
         check_status_callback: Callable,
         initial_text: str,

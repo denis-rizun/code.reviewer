@@ -1,3 +1,5 @@
+from asyncio import create_task
+
 from aiogram import Router, F, Dispatcher
 from aiogram.fsm.context import FSMContext
 from aiogram.types import Message
@@ -39,16 +41,11 @@ async def review_process_link(
 
     await state.clear()
     review_service = dispatcher.workflow_data[StorageEnum.REVIEW_SERVICE.value]
-    response, messages_to_delete = await review_service.get_review(message=message, link=link)
-
-    for msg_id in messages_to_delete:
-        await message.bot.delete_message(chat_id=message.chat.id, message_id=msg_id)
-
-    await message.answer(
-        text=(
-            f"{Constants.REVIEW_RESULT_TEXT}\n\n"
-            f"{response.data.repository_link}\n\n"
-            f"{response.data.rating}"
-        ),
-        reply_markup=KeyboardGetter.back()
+    task = create_task(
+        review_service.run_review(
+            message=message,
+            state=state,
+            link=link
+        )
     )
+    await state.update_data({"review_task": task})

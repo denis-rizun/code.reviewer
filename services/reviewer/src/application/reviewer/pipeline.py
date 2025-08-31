@@ -19,27 +19,29 @@ class ReviewerPipeline(IReviewerPipeline):
         overview = await self._reviewer.review(link=link)
         logger.info(f"[ReviewerPipeline]: Successful completed | User({user_id})")
 
-        await self.send_result(key=key, overview=overview)
+        await self.send_result(key=key, overview=overview, link=link)
 
-    async def send_result(self, key: str, overview: str) -> None:
+    async def send_result(self, key: str, overview: str, link: str) -> None:
         async with self._producer:
             await self._producer.send(
                 topic=Constants.REVIEW_RESPONSE_TOPIC,
                 key=key,
-                value={"overview": overview},
+                value={"overview": overview, "task_id": key, "repository_link": link},
             )
 
     @classmethod
     def fetch_from_message(cls, key: str, value: dict[str, str]) -> tuple[int, str]:
         if ":" not in key:
-            raise DeserializationException(f"Invalid key format: {key}")
+            logger.error(f"Invalid key format: {key}")
+            raise DeserializationException("Invalid key format")
 
         try:
-            user_id = int(key.split(":")[1])
+            user_id = int(key.split(":")[0])
         except (IndexError, ValueError) as e:
-            raise DeserializationException(f"Cannot parse user_id from key: {key}") from e
+            logger.error(f"[ReviewerPipeline]: Cannot parse user_id from key: {key}")
+            raise DeserializationException("Cannot parse user_id from key") from e
 
-        link = value.get("link")
+        link = value.get("repository_link")
         if not link:
             logger.error(f"[ReviewerPipeline]: Link not found in message: {value}")
             raise NotFoundException("Link not found in message")

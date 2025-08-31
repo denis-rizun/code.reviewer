@@ -19,21 +19,27 @@ type ReviewService struct {
 func NewReviewService(repo caching.IRepo, kafkaPublisher messaging.IPublisher) *ReviewService {
 	return &ReviewService{RedisRepo: repo, KafkaPublisher: kafkaPublisher}
 }
-
 func (s *ReviewService) CheckOrEnqueue(
-	ctx context.Context,
-	dto dto.ReviewRequestDTO,
+    ctx context.Context,
+    dto dto.ReviewRequestDTO,
 ) (string, bool, error) {
-	val, err := s.RedisRepo.Get(ctx, dto.TaskID)
-	if err == nil && val != "" {
-		return val, true, nil
-	}
+    resultKey := fmt.Sprintf("task:%s", dto.TaskID)
+    val, err := s.RedisRepo.Get(ctx, resultKey)
+    if err == nil && val != "" {
+        return val, true, nil
+    }
 
-	if err := s.KafkaPublisher.Publish(ctx, dto.TaskID, dto); err != nil {
-		return "", false, err
-	}
+    if err := s.RedisRepo.Set(ctx, resultKey, "processing", time.Minute*5); err != nil {
+        return "", false, err
+    }
 
-	return "", false, nil
+    statusKey := fmt.Sprintf("status:%s", dto.TaskID)
+    if err := s.KafkaPublisher.Publish(ctx, dto.TaskID, dto); err != nil {
+        s.RedisRepo.Delete(ctx, statusKey)
+        return "", false, err
+    }
+
+    return "", false, nil
 }
 
 func (s *ReviewService) HandleMessaging(msg dto.Message) {

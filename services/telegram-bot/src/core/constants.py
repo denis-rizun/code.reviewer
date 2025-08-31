@@ -4,7 +4,7 @@ from typing import ClassVar
 class Constants:
     PROJECT_NAME: ClassVar[str] = "code.reviewer"
     GITHUB_LINK: ClassVar[str] = "https://github.com/denis-rizun/code.reviewer"
-    GATEWAY_URL: ClassVar[str] = "http://localhost:8080/api/v1/review"
+    GATEWAY_URL: ClassVar[str] = "http://api:8080"
 
     INFO_TEXT: ClassVar[str] = (
         "<b>🤖 code.reviewer</b>\n"

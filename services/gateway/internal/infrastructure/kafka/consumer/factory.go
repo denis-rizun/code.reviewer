@@ -1,18 +1,23 @@
 package consumer
 
-import "github.com/segmentio/kafka-go"
+import (
+	"github.com/segmentio/kafka-go"
+	"strings"
+)
 
 type Factory struct {
-	brokers []string
+	brokers string
 }
 
-func NewFactory(brokers []string) *Factory {
+func NewFactory(brokers string) *Factory {
 	return &Factory{brokers: brokers}
 }
 
 func (f *Factory) Create(groupID string, topic string) *Consumer {
+	brokerList := strings.Split(f.brokers, ",")
+
 	reader := kafka.NewReader(kafka.ReaderConfig{
-		Brokers:  f.brokers,
+		Brokers:  brokerList,
 		GroupID:  groupID,
 		Topic:    topic,
 		MinBytes: 10e3,

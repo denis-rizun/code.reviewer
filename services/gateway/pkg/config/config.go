@@ -12,7 +12,7 @@ type Config struct {
 	RedisHost string `envconfig:"REDIS_HOST"`
 	RedisPort int    `envconfig:"REDIS_PORT"`
 
-	KafkaBrokers []string `envconfig:"KAFKA_BROKERS" split_words:"true"`
+	KafkaBrokers string `envconfig:"KAFKA_BROKERS"`
 }
 
 func LoadConfig() *Config {
