@@ -1,9 +1,11 @@
 package router
 
 import (
+	"encoding/json"
 	"fmt"
 	"gateway/internal/application"
 	"gateway/internal/domain/dto"
+	"gateway/pkg/logger"
 	"github.com/gin-gonic/gin"
 	"net/http"
 )
@@ -35,7 +37,19 @@ func (h *ReviewHandler) CheckIn(c *gin.Context) {
 	}
 
 	if found {
-		c.JSON(http.StatusOK, gin.H{"status": "ready", "data": result})
+		var resultData map[string]interface{}
+		if err := json.Unmarshal([]byte(result), &resultData); err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"error": "failed to parse result"})
+			return
+		}
+
+		resultData["status"] = "ready"
+		c.JSON(http.StatusOK, resultData)
+
+		key := fmt.Sprintf("task:%s", req.TaskID)
+		if err := h.reviewService.RedisRepo.Delete(c.Request.Context(), key); err != nil {
+			logger.Error.Printf("failed to delete Key %s: %v\n", key, err)
+		}
 		return
 	}
 

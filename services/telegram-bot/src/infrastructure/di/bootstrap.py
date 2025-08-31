@@ -13,7 +13,6 @@ class Bootstrap:
         container.wire(
             packages=[
                 "src.infrastructure.bot.configurator",
-                "src.application.auth",
             ]
         )
         logger.info("[DI]: Dependencies wired.")
