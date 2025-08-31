@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"gateway/internal/application"
 	"gateway/internal/domain/dto"
+	"gateway/pkg/logger"
 	"github.com/gin-gonic/gin"
 	"net/http"
 )
@@ -44,6 +45,11 @@ func (h *ReviewHandler) CheckIn(c *gin.Context) {
 
 		resultData["status"] = "ready"
 		c.JSON(http.StatusOK, resultData)
+
+		key := fmt.Sprintf("task:%s", req.TaskID)
+		if err := h.reviewService.RedisRepo.Delete(c.Request.Context(), key); err != nil {
+			logger.Error.Printf("failed to delete key %s: %v\n", key, err)
+		}
 		return
 	}
 
