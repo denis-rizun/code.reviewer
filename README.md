@@ -1,8 +1,7 @@
 # 🤖 Code.Reviewer — AI-Powered OSS Repo Auditor
 
 This is an **AI-driven auditor** for open-source GitHub repositories.  
-Built with **Go**, **Python**, **Kafka**, and a modular microservice architecture designed for high-throughput environments.
-
+Built with **Go**, **Python** and a modular microservice architecture designed for high-throughput environments.
 
 > ⚠️ **Project is currently in active development.** Features and architecture may evolve rapidly.
 
@@ -32,9 +31,8 @@ User
 - `Python` Analyzer  
     - Scans repo  
     - Runs static checks (AST, complexity, linters)  
-    - Applies ML/NLP models (e.g., doc quality, commit-history health)  
+    - Applies AI models (e.g., doc quality, commit-history health)  
     - Summarizes result as JSON & Markdown  
-- `Go` API Gateway  
 - User receives structured audit report  
 
 ---
@@ -63,9 +61,7 @@ Analyzing...
 ## 💡 Planned Features
 - Async interaction via WebSocket or long polling (in the case with Frontend)
 - Support for multi-type languages 
-- Support projects history tracking
-- Inline message preview of an analysis report
-- Link Telegram ↔ GitHub account (for maintainers)
+- Support projects history tracking (commits)
 
 --- 
 
